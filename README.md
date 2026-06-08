@@ -4,13 +4,13 @@
 
 AI Knowledge Assistant is a Retrieval-Augmented Generation (RAG) application built using FastAPI, PostgreSQL, Sentence Transformers, and Groq-hosted Llama 3.1.
 
-The system stores documents in PostgreSQL, generates vector embeddings using Sentence Transformers, performs semantic search using cosine similarity, retrieves the most relevant document, and generates context-aware answers using Llama 3.1.
+The system stores documents in PostgreSQL, generates vector embeddings for semantic search, retrieves the most relevant document using cosine similarity, and generates context-aware answers using Llama 3.1 based on the retrieved content.
 
 ---
 
-## Live Demo
+## Live Deployment
 
-**Deployment URL**
+**Application URL**
 
 https://ai-knowledge-assistant-kv1e.onrender.com
 
@@ -201,7 +201,7 @@ DATABASE_URL=your_database_url
 GROQ_API_KEY=your_groq_api_key
 ```
 
-### 4. Run Application
+### 4. Run the Application
 
 ```bash
 uvicorn app.main:app --reload
@@ -217,25 +217,15 @@ http://127.0.0.1:8000/docs
 
 ## Deployment
 
-This application is deployed on Render.
+The application is deployed on Render and publicly accessible.
 
-Live URL:
+**Live Application**
 
 https://ai-knowledge-assistant-kv1e.onrender.com
 
-Swagger Documentation:
+**Swagger Documentation**
 
 https://ai-knowledge-assistant-kv1e.onrender.com/docs
-
----
-
-## Future Improvements
-
-* Top-K document retrieval
-* Vector database integration (Pinecone/Qdrant)
-* Multi-document context generation
-* Authentication and authorization
-* Document upload from files (PDF, DOCX)
 
 ---
 
@@ -245,5 +235,4 @@ https://ai-knowledge-assistant-kv1e.onrender.com/docs
 
 BCA Graduate | AI & Machine Learning Enthusiast
 
-GitHub:
-https://github.com/Ajeerks
+GitHub: https://github.com/Ajeerks
