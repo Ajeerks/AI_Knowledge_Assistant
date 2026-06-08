@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import engine, Base, SessionLocal
@@ -32,7 +32,17 @@ def home():
     }
 
 
-@app.post("/documents")
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy"
+    }
+
+
+@app.post(
+    "/documents",
+    summary="Store a document and generate embeddings"
+)
 def add_document(
     document: DocumentRequest,
     db: Session = Depends(get_db)
@@ -57,12 +67,16 @@ def add_document(
         }
 
     except Exception as e:
-        return {
-            "error": str(e)
-        }
+        raise HTTPException(
+            status_code=500,
+            detail=f"Document storage failed: {str(e)}"
+        )
 
 
-@app.post("/ask")
+@app.post(
+    "/ask",
+    summary="Ask questions using RAG retrieval"
+)
 def ask_question(
     question: QuestionRequest,
     db: Session = Depends(get_db)
@@ -75,9 +89,10 @@ def ask_question(
         documents = db.query(Document).all()
 
         if not documents:
-            return {
-                "message": "No documents found"
-            }
+            raise HTTPException(
+                status_code=404,
+                detail="No documents found in database"
+            )
 
         best_document = None
         best_score = -1
@@ -109,7 +124,11 @@ def ask_question(
             "answer": answer
         }
 
+    except HTTPException:
+        raise
+
     except Exception as e:
-        return {
-            "error": str(e)
-        }
+        raise HTTPException(
+            status_code=500,
+            detail=f"Question answering failed: {str(e)}"
+        )
